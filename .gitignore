@@ -1,0 +1,16 @@
+
+temp/
+output/
+_data/
+_docs/
+_notes/
+_template/
+.vs/
+.vscode/
+
+*.pkl
+*.docx
+*.ppt
+*.pdf
+
+
