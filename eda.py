@@ -10,17 +10,8 @@
 @License   :   (C)Copyright 2023, CLF under the MIT License
 @Desc      :   Google Advanced Data Analytics Certification Capstone project.
 
-#Env setup
-select interp
-create venv
-activate venv: .venv\Scripts\Activate.ps1
-
 installs:
-pip install --upgrade pip setuptools wheel build configparser pipreqs
-pip install ipykernel numpy pandas matplotlib seaborn scikit-learn
-pip-compile .venv\pyvenv.cfg requirements.txt
-cat requirements.txt
-pip freeze > requirements.txt
+pip install ipykernel numpy pandas matplotlib seaborn
 
 """
 
@@ -28,24 +19,13 @@ pip freeze > requirements.txt
 ##-> Data manipulation
 import numpy as np
 import pandas as pd
-
-##->! Workspace Configuration
-import warnings; warnings.filterwarnings("ignore")
-import sys; print("User Current Version:-", sys.version)
-import time; startTime = time.time()
 pd.set_option("display.max_colwidth", None)
 pd.set_option("display.max_columns", None)
 pd.set_option("display.max_rows", None)
-pd.set_option("display.colheader_justify", "left")
-pd.set_option("display.max_info_columns", 300000)
-pd.set_option("display.max_info_rows", 300000)
 
 ##-> Data visualization
 import matplotlib.pyplot as plt
 import seaborn as sns
-
-##-> Saving models
-import pickle
 
 
 
@@ -53,7 +33,7 @@ import pickle
 ###~> pAce - ANALYZE
 ###~~~~~~~~~~~~~~~~~~>
 ##-> Load dataset
-df = pd.read_csv('data\HR_capstone_dataset.csv')
+df = pd.read_csv('data\HR_capstone_dataset.csv')#see readme for dataset
 df.head()
 df.info() #no missing values
 df.describe()
@@ -208,7 +188,7 @@ heatmap.set_title('Correlation Heatmap', fontdict={'fontsize':14}, pad=12)
 
 
 '''
-###* EDA Insights
+** EDA Insights **
 It appears that employees are leaving the company as a result of poor management. 
     Leaving is tied to longer working hours, many projects, and generally lower satisfaction levels. *All employees with 7 projects left the company. 
     It can be ungratifying to work long hours and not receive promotions or good evaluation scores. There's a sizeable group of employees at this company who are probably burned out. 
@@ -216,6 +196,3 @@ It appears that employees are leaving the company as a result of poor management
 
 '''
 
-
-###> Performance Metrics
-print("Execution time in seconds: " + str(round((time.time() - startTime), 2)))
