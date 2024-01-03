@@ -19,7 +19,7 @@ Capstone Project for the Google Advanced Data Analytics Certification course.
 ### Solution:
 
 * Analyze the data collected by the HR department, build predictive model to identify empoyees likely to quit, and identify factors that contribute to their leaving if possibile.
-* Algorithms: Logistic Regression, Decision Tree, Random Forest, XGBoost, K-Means
+* Models: Logistic Regression, Decision Tree, Random Forest, XGBoost, K-Means
 
 ### Deliverables:
 
