@@ -177,14 +177,25 @@ df_enc['SALARY'] = (
 ##-> Drop 'DEPARTMENT' since it didn't much impact departed employees
 df_numerical = df_enc.drop(columns='DEPARTMENT')
 
-##-> Get dummies for 'DEPARTMENT' data for modeling
-df_enc = pd.get_dummies(df_enc, drop_first=False)
-
 
 ##-> Correlation heatmap
 plt.figure(figsize=(16, 9))
 heatmap = sns.heatmap(df_numerical.corr(), vmin=-1, vmax=1, annot=True, cmap=sns.color_palette("vlag", as_cmap=True))
 heatmap.set_title('Correlation Heatmap', fontdict={'fontsize':14}, pad=12)
+
+##-> Drop columns for tighter correlation
+plt.figure(figsize=(8, 6))
+sns.heatmap(df_enc[['SATISFACTION', 'LAST_EVAL', 'PROJ_NUM', 'AVG_HRS_PER_MONTH', 'TENURE']].corr(), annot=True, cmap="crest")
+plt.title('Heatmap of the dataset')
+plt.show()
+
+##-> Stacked bar chart 'LEFT' vs 'DEPARTMENT'
+pd.crosstab(df_enc['DEPARTMENT'], df_enc['LEFT']).plot(kind ='bar',color='mr')
+plt.title('Counts of employees who left versus stayed across department')
+plt.ylabel('Employee count')
+plt.xlabel('DEPARTMENT')
+plt.show()
+
 
 
 '''
