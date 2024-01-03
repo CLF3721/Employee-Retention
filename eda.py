@@ -207,3 +207,12 @@ It appears that employees are leaving the company as a result of poor management
 
 '''
 
+
+##-> Create a dataset processed for the model
+df_prepped = df_enc.copy()
+
+##-> Drop outliers since LogRegs are sensitive to them
+df_prepped = df_prepped[~df_prepped['TENURE'].isin(outliers['TENURE'])]
+
+##-> Get dummies for 'DEPARTMENT' data for modeling
+df_prepped = pd.get_dummies(df_prepped, drop_first=False)
