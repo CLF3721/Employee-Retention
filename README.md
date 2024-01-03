@@ -78,7 +78,7 @@ from xgboost import XGBClassifier
 from xgboost import XGBRegressor
 from xgboost import plot_importance
 
-# Data Modeling - Kmeans
+# Data Modeling - K-means
 from sklearn.cluster import KMeans
 from sklearn.metrics import silhouette_score
 from sklearn.preprocessing import StandardScaler
