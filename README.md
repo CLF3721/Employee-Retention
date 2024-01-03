@@ -28,8 +28,8 @@ Capstone Project for the Google Advanced Data Analytics Certification course.
 
 ### Dataset:
 
-[Kaggle HR Dataset](https://www.kaggle.com/datasets/mfaisalqureshi/hr-analytics-and-job-prediction): 14,999 rows (employees), 10 columns
-
+Raw: [Kaggle HR Dataset](https://www.kaggle.com/datasets/mfaisalqureshi/hr-analytics-and-job-prediction): 14,999 rows (employees), 10 columns
+After Cleaning:
 | COL_NAME              | TYPE    | DESC                                                                           |
 | :-------------------- | :------ | :----------------------------------------------------------------------------- |
 | SATISFACTION          | float64 | The employee’s self-reported satisfaction level [0-1]                         |
