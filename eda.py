@@ -188,6 +188,48 @@ outliers = df_drop_dup[(df_drop_dup['TENURE'] > upper_limit) | (df_drop_dup['TEN
 
 
 
+###~~~~~~~~~~~~~~~~~~~>
+###~> Data Enrichment
+###~~~~~~~~~~~~~~~~~~~>
+df_enriched = df_drop_dup.copy()
+
+# ##-> Inspect min/max average monthly hours values
+# print('Min hours:', df_enriched['AVG_HRS_PER_MONTH'].min())
+# print('Max hours:', df_enriched['AVG_HRS_PER_MONTH'].max())
+
+##-> 'OVERWORKED' = working > 175 hrs/month and they have more than 3 projects.
+df_enriched['OVERWORKED'] = 0
+df_enriched['OVERWORKED'] = (((df_enriched['AVG_HRS_PER_MONTH']>175) & (df_enriched['PROJ_NUM']>3)) | (df_enriched['PROJ_NUM']>4)).astype("int64")
+df_enriched['OVERWORKED'].value_counts()
+
+##-> 'UNDERAPPRECIATED' = tenure>3yrs with no promotion or just overworked
+df_enriched['UNDERAPPRECIATED'] = 0
+df_enriched['UNDERAPPRECIATED'] = (((df_enriched['PROMOTION_LAST_5YEARS']==0) & (df_enriched['TENURE']>2)) | ((df_enriched['PROMOTION_LAST_5YEARS']==1) & (df_enriched['OVERWORKED']==1) & (df_enriched['SALARY']=='low'))).astype("int64")
+# df_enriched['UNDERAPPRECIATED'].value_counts()
+
+##-> Lack of employee growth opportunities
+# df_enriched.groupby(['LEFT','PROJ_NUM'])['PROMOTION_LAST_5YEARS'].mean()
+# df_enriched.groupby(['LEFT','OVERWORKED','PROMOTION_LAST_5YEARS']).mean()
+hmmm = df_enriched[(df_enriched['LEFT']==1) & (df_enriched['WORK_ACCIDENT']==0) & (df_enriched['OVERWORKED']==1) & (df_enriched['TENURE']>3) & (df_enriched['PROMOTION_LAST_5YEARS']==1)]
+lets_check = df_enriched[(df_enriched['LEFT']==1) & (df_enriched['WORK_ACCIDENT']==0) & (df_enriched['OVERWORKED']==1) & (df_enriched['UNDERAPPRECIATED']==1)]
+# df_enriched.head()
+# Hardly anyone surveyed was given a promotion.  Many of the duplicates were those marked as 1.  Of those that were promoted in the past 5 years that left, regardless of tenure and promotion, they were still being underpaid.
+
+##-> df with just tgt var and new cols
+df_binary = df_enriched[['LEFT', 'OVERWORKED', 'UNDERAPPRECIATED']].sort_values(by=['LEFT','OVERWORKED', 'UNDERAPPRECIATED'], ignore_index=True)
+
+##-> Calculating proportions
+grouped = df_binary.groupby('LEFT').mean()
+# proportions = grouped.div(grouped.sum(), axis=0)
+# # Plotting
+# proportions.plot(kind='bar', stacked=True)
+# plt.title('Proportion of Employees Leaving by Overworked and Underappreciated Status')
+# plt.ylabel('Proportion')
+# plt.legend(title='Left', loc='upper left')
+# plt.show()
+
+
+
 ###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
 ###~> Encoding Categorical Values
 ###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
@@ -218,53 +260,11 @@ df_enc.drop(columns=['DEPARTMENT'], inplace=True)
 
 
 
-###~~~~~~~~~~~~~~~~~~~>
-###~> Data Enrichment
-###~~~~~~~~~~~~~~~~~~~>
-df_enriched = df_drop_dup.copy()
-
-# ##-> Inspect min/max average monthly hours values
-# print('Min hours:', df_enriched['AVG_HRS_PER_MONTH'].min())
-# print('Max hours:', df_enriched['AVG_HRS_PER_MONTH'].max())
-
-##-> 'OVERWORKED' = working > 175 hrs/month and they have more than 3 projects.
-df_enriched['OVERWORKED'] = 0
-df_enriched['OVERWORKED'] = (((df_enriched['AVG_HRS_PER_MONTH']>175) & (df_enriched['PROJ_NUM']>3)) | (df_enriched['PROJ_NUM']>4)).astype("int64")
-df_enriched['OVERWORKED'].value_counts()
-
-##-> 'UNDERAPPRECIATED' = tenure>3yrs with no promotion or just overworked
-df_enriched['UNDERAPPRECIATED'] = 0
-df_enriched['UNDERAPPRECIATED'] = (((df_enriched['PROMOTION_LAST_5YEARS']==0) & (df_enriched['TENURE']>2)) | ((df_enriched['PROMOTION_LAST_5YEARS']==1) & (df_enriched['OVERWORKED']==1) & (df_enriched['SALARY']=='low'))).astype("int64")
-# df_enriched['UNDERAPPRECIATED'].value_counts()
-
-##-> Lack of employee growth opportunities
-# df_enriched.groupby(['LEFT','PROJ_NUM'])['PROMOTION_LAST_5YEARS'].mean()
-# df_enriched.groupby(['LEFT','OVERWORKED','PROMOTION_LAST_5YEARS']).mean()
-hmmm = df_enriched[(df_enriched['LEFT']==1) & (df_enriched['WORK_ACCIDENT']==0) & (df_enriched['OVERWORKED']==1) & (df_enriched['TENURE']>3) & (df_enriched['PROMOTION_LAST_5YEARS']==1)]
-lets_check = df_enriched[(df_enriched['LEFT']==1) & (df_enriched['WORK_ACCIDENT']==0) & (df_enriched['OVERWORKED']==1) & (df_enriched['UNDERAPPRECIATED']==1)]
-
-###! Hardly anyone surveyed was given a promotion.  Many of the duplicates were those marked as 1.  Of those that were promoted in the past 5 years that left, regardless of tenure and promotion, they were still being underpaid.
-
-##-> df with just tgt var and new cols
-df_binary = df_enriched[['LEFT', 'OVERWORKED', 'UNDERAPPRECIATED']].sort_values(by=['LEFT','OVERWORKED', 'UNDERAPPRECIATED'], ignore_index=True)
-
-##-> Calculating proportions
-grouped = df_binary.groupby('LEFT').mean()
-# proportions = grouped.div(grouped.sum(), axis=0)
-# # Plotting
-# proportions.plot(kind='bar', stacked=True)
-# plt.title('Proportion of Employees Leaving by Overworked and Underappreciated Status')
-# plt.ylabel('Proportion')
-# plt.legend(title='Left', loc='upper left')
-# plt.show()
-
-
-
 ###~~~~~~~~~~~~~~~~~~>
 ###~> EDA - SweetViz
 ###~~~~~~~~~~~~~~~~~~>
 # sv.config_parser.read("Override.ini")
-sv_report = sv.analyze(df_enriched, target_feat="LEFT")
+sv_report = sv.analyze(df_enc_dummied, target_feat="LEFT")
 sv_report.show_html("Salifort-Motors-Employee-Retention-Report.html")
 
 
