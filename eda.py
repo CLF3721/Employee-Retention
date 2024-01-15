@@ -265,7 +265,7 @@ df_enc.drop(columns=['DEPARTMENT'], inplace=True)
 ###~~~~~~~~~~~~~~~~~~>
 # sv.config_parser.read("Override.ini")
 sv_report = sv.analyze(df_enc_dummied, target_feat="LEFT")
-sv_report.show_html("Salifort-Motors-Employee-Retention-Report.html")
+sv_report.show_html("Salifort-Motors-Employee-Retention-Report.html", open_browser=False, layout='vertical')
 
 
 
