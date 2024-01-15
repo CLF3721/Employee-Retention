@@ -234,7 +234,7 @@ grouped = df_binary.groupby('LEFT').mean()
 ###~> Encoding Categorical Values
 ###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
 ##-> 'SALARY' is categorical but since it's ordinal and a hierarchy to the categories, it's better not to dummy this column, but rather to encode 'SALARY' as an ordinal numeric category, 0-2.
-df_enc = df_drop_dup.copy()
+df_enc = df_enriched.copy()
 df_enc['SALARY'] = (df_enc['SALARY'].astype('category').cat.set_categories(['low', 'medium', 'high']).cat.codes).astype("int64")
 
 ##-> Get dummies for 'DEPARTMENT' categoricals
