@@ -17,11 +17,9 @@
 import numpy as np
 import pandas as pd
 import eda
-import feature_eng as fe
 
 ##-> Data visualization
 import matplotlib.pyplot as plt
-import seaborn as sns
 
 ##-> Modeling: Logistic Regression
 from sklearn.linear_model import LogisticRegression
@@ -30,88 +28,57 @@ from sklearn.linear_model import LogisticRegression
 from sklearn.model_selection import train_test_split
 from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report
 
-
-###> Datasets
 ##-> Load dataset from eda.py
-df_logreg = eda.df_prepped.copy()
+df_logreg = eda.df_enc_no_ouliers.copy()
 df_logreg.head()
 
-##-> Load dataset from feature_eng.py
-df_logreg_fe = fe.df_prepped_fe.copy()
-df_logreg_fe.head()
 
 
-
-###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
-###~> Binomial Logistic Regression #1
-###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
-##-> Target Variable
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+###~> paCe - CONSTRUCT: Binomial Logistic Regression 
+###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
+#* BLR suits the task because it involves binary classification.
+##-> Target Variable - what we want the model to predict
 y = df_logreg['LEFT']
+y.head()
 
 ##-> Feature Selection
 X = df_logreg.drop(columns='LEFT')
+X.head()
 
-##-> Data Partitioning
+# Split the data into training set and testing set. Don't forget to stratify based on the values in 'y', since the classes are imbalanced.
+##-> Data Partitioning: Split the data into training, testing, and hold out samples
 X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, stratify=y, random_state=42)
 
-##-> Build, fit, test the model
+##-> Build the model and fit it to the training dataset
 log_clf = LogisticRegression(random_state=42, max_iter=500).fit(X_train, y_train)
+
+##-> Test the model by using it to make predictions on the test set
 y_pred = log_clf.predict(X_test)
 
-##-> Confusion matrix *Key at the bottom of this script
+##-> Confusion matrix
 log_cm = confusion_matrix(y_test, y_pred, labels=log_clf.classes_)
 log_disp = ConfusionMatrixDisplay(confusion_matrix=log_cm, display_labels=log_clf.classes_)
 log_disp.plot(values_format='')
 plt.show()
 
-##-> Check class imbalance
-df_logreg['LEFT'].value_counts(normalize=True) # approx 83%-17% split ==> doesn't need resampling
+# Create a classification report that includes precision, recall, f1-score, and accuracy metrics to evaluate the performance of the logistic regression model.
+# Check the class balance in the data. In other words, check the value counts in the 'left' column. Since this is a binary classification task, the class balance informs the way you interpret accuracy metrics. If the data is severely imbalanced, you might want to resample the data to make it more balanced. In this case, you can use this data without modifying the class balance and continue evaluating the model.
 
-##-> Generate classification report
+##-> Check class imbalance
+df_logreg['LEFT'].value_counts(normalize=True)
+# approx 83%-17% split ==> doesn't need resampling
+
+##-> Generate a classification report
 target_names = ['Predicted would not leave', 'Predicted would leave']
 print(classification_report(y_test, y_pred, target_names=target_names))
+
 
 
 '''
 ###> BLR Insights
 The classification report shows that the logistic regression model achieved a precision of 79%, recall of 82%, f1-score of 80% (all weighted averages), and accuracy of 82%. However, if it's most important to predict employees who leave, then the scores are significantly lower.
 '''
-
-
-
-
-###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
-###~> Binomial Logistic Regression #2
-###~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~>
-"""
-The first model build round included all variables as features. 
-Round #2 will incorporate the feature engineered df to build improved models. 
-"""
-##-> Repeated steps above with FE dataframe
-y = df_logreg_fe['LEFT']
-X = df_logreg_fe.drop('LEFT', axis=1)
-X_train, X_test, y_train, y_test = train_test_split(X, y, test_size=0.25, stratify=y, random_state=0)
-log_clf = LogisticRegression(random_state=42, max_iter=500).fit(X_train, y_train)
-y_pred = log_clf.predict(X_test)
-
-##-> Confusion matrix #2
-log_cm = confusion_matrix(y_test, y_pred, labels=log_clf.classes_)
-log_disp = ConfusionMatrixDisplay(confusion_matrix=log_cm, display_labels=log_clf.classes_)
-log_disp.plot(values_format='')
-plt.show()
-
-##-> Generate a classification report #2
-target_names = ['Predicted would not leave', 'Predicted would leave']
-print(classification_report(y_test, y_pred, target_names=target_names))
-
-
-'''
-###> Feature Engineering and BLR #2 Insights
-    Not much change after feature engineering/augmentation
-'''
-
-
-
 
 
 '''
