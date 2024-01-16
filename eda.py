@@ -11,7 +11,7 @@
 @Desc      :   Exploratory Data Analysis (EDA) for the Google Advanced Data Analytics Certification Capstone project.
 
 installs:
-pip install ipykernel pycaret sweetviz
+pip install ipykernel pycaret[full] sweetviz
 
 """
 
