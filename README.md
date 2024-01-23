@@ -48,7 +48,7 @@ After Cleaning:
 ## Installation
 
 ```bash
-pip install ipykernel numpy pandas matplotlib seaborn scikit-learn
+pip install ipykernel pycaret[full] sweetviz numpy pandas matplotlib seaborn sklearn
 ```
 
 ## Imports
@@ -57,39 +57,26 @@ pip install ipykernel numpy pandas matplotlib seaborn scikit-learn
 # Data manipulation
 import numpy as np
 import pandas as pd
+
+##-> Workspace Config
 pd.set_option('display.max_columns', None)
 
 # Saving models
 import pickle
 
 # Data visualization
+import sweetviz as sv
 import matplotlib.pyplot as plt
 import seaborn as sns
 
-# Data Modeling - LogReg
+# LightGBM using PyCaret
+from pycaret.classification import *
+
+# Data Modeling - LogReg & Metrics
 from sklearn.linear_model import LogisticRegression
+from sklearn.model_selection import train_test_split
+from sklearn.metrics import confusion_matrix, ConfusionMatrixDisplay, classification_report
 
-# Data Modeling - DecTree
-from sklearn.tree import DecisionTreeClassifier
-
-# Data Modeling - RandFor
-from sklearn.ensemble import RandomForestClassifier
-
-# Data Modeling - XGBoost
-from xgboost import XGBClassifier
-from xgboost import XGBRegressor
-from xgboost import plot_importance
-
-# Data Modeling - K-means
-from sklearn.cluster import KMeans
-from sklearn.metrics import silhouette_score
-from sklearn.preprocessing import StandardScaler
-
-# Metrics & others
-from sklearn.model_selection import GridSearchCV, train_test_split
-from sklearn.metrics import accuracy_score, precision_score, recall_score,f1_score, confusion_matrix, ConfusionMatrixDisplay, classification_report
-from sklearn.metrics import roc_auc_score, roc_curve
-from sklearn.tree import plot_tree
 ```
 
 ## Code of Conduct
