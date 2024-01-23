@@ -1,4 +1,4 @@
-# Google Advanced Data Analytics Certification
+# Employee Retention Insights for Salifort Motors' HR
 
 ## Description
 
@@ -31,6 +31,7 @@ Capstone Project for the Google Advanced Data Analytics Certification course.
 Raw: [Kaggle HR Dataset](https://www.kaggle.com/datasets/mfaisalqureshi/hr-analytics-and-job-prediction): 14,999 rows (employees), 10 columns
 
 After Cleaning:
+
 | COL_NAME              | TYPE    | DESC                                                                           |
 | :-------------------- | :------ | :----------------------------------------------------------------------------- |
 | SATISFACTION          | float64 | The employee’s self-reported satisfaction level [0-1]                         |
@@ -40,9 +41,9 @@ After Cleaning:
 | TENURE                | int64   | How long the employee has been with the company (years)                        |
 | WORK_ACCIDENT         | int64   | Whether or not the employee experienced an accident while at work; 0=No, 1=Yes |
 | LEFT                  | int64   | Whether or not the employee left the company; 0=No (Stayed), 1=Yes (Left)      |
-| PROMOTION_LAST_5YEARS | int64   | Whether or not the employee was promoted in the last 5 years; 0=No, 1=Yes     |
+| PROMOTION_LAST_5YEARS | int64   | Whether or not the employee was promoted in the last 5 years; 0=No, 1=Yes      |
 | DEPARTMENT            | object  | The employee's department                                                      |
-| SALARY                | object  | The employee's salary (low, medium, high)                                     |
+| SALARY                | object  | The employee's salary (low, medium, high)                                      |
 
 ## Installation
 
