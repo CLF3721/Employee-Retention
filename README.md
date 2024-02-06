@@ -6,7 +6,7 @@ Capstone Project for the Google Advanced Data Analytics Certification course.
 
 ### Scenario:
 
-* The Human Resources (HR) department of a large consulting firm, Salifort Motors, wants to take some initiatives to improve employee satisfaction levels at the company since it is so time-consuming and expensive to find, interview, and hire new employees.
+* The Human Resources (HR) department of a large consulting firm, Salifort Motors, wants to take some initiatives to improve employee satisfaction levels since finding, interviewing, and hiring new employees is so time-consuming and expensive.
 
 ### Problem Question:
 
@@ -14,11 +14,11 @@ Capstone Project for the Google Advanced Data Analytics Certification course.
 
 ### Task:
 
-* Predict whether or not an employee will leave the company and provide data-driven suggestions for HR on how to increase employee retention.
+* Predict whether or not an employee will leave the company and provide data-driven suggestions for HR on improving employee retention.
 
 ### Solution:
 
-* Analyze the data collected by the HR department, build predictive model to identify empoyees likely to quit, and identify factors that contribute to their leaving if possibile.
+* Analyze the data collected by the HR department, build a predictive model to identify employees likely to quit, and identify factors that contribute to their leaving if possible.
 * Models: Logistic Regression, Decision Tree, Random Forest, XGBoost, K-Means
 
 ### Deliverables:
