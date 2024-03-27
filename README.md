@@ -58,9 +58,6 @@ pip install ipykernel pycaret[full] sweetviz numpy pandas matplotlib seaborn skl
 import numpy as np
 import pandas as pd
 
-##-> Workspace Config
-pd.set_option('display.max_columns', None)
-
 # Saving models
 import pickle
 
